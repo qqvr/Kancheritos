@@ -70,10 +70,10 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-// GUARDAR
+// GUARDAR PRODUCTO
 btnAgregar.onclick = async () => {
   await addDoc(collection(db, "productos"), {
-    codigo: codigo.value,
+    codigo: codigo.value,   // SOLO CÓDIGO
     nombre: nombre.value,
     precio: precio.value,
     proveedor: proveedor.value
@@ -83,26 +83,28 @@ btnAgregar.onclick = async () => {
   alert("Producto guardado ✅");
 };
 
-// BUSCAR + ELIMINAR
+// 🔍 BUSCAR SOLO POR CÓDIGO (NÚMERO)
 buscar.oninput = async () => {
-  const text = buscar.value.toLowerCase();
+  const code = buscar.value.trim(); // SOLO LO QUE ESCRIBÍS
   resultado.innerHTML = "";
-  if (!text) return;
+
+  if (code === "") return;
 
   const snap = await getDocs(collection(db, "productos"));
 
   snap.forEach(d => {
     const p = d.data();
-    if (
-      p.codigo.toLowerCase().includes(text) ||
-      p.nombre.toLowerCase().includes(text)
-    ) {
-      resultado.innerHTML += `
+
+    // 🔥 SOLO COMPARA CÓDIGO
+    if (p.codigo === code) {
+      resultado.innerHTML = `
         <div>
-          <b>${p.nombre}</b><br>
+          <b>Producto encontrado</b><br><br>
           Código: ${p.codigo}<br>
+          Nombre: ${p.nombre}<br>
           Precio: ${p.precio}<br>
           Proveedor: ${p.proveedor}<br><br>
+
           <button onclick="eliminarProducto('${d.id}')"
             style="background:#e74c3c">
             Eliminar
@@ -113,9 +115,10 @@ buscar.oninput = async () => {
   });
 };
 
+// ELIMINAR
 window.eliminarProducto = async (id) => {
   if (!confirm("¿Eliminar producto?")) return;
   await deleteDoc(doc(db, "productos", id));
-  alert("Eliminado ✅");
   resultado.innerHTML = "";
+  alert("Producto eliminado ✅");
 };
