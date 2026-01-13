@@ -1,11 +1,19 @@
 // 🔥 FIREBASE
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs }
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 🔹 CONFIG
+// 🔹 CONFIG (NO TOCAR)
 const firebaseConfig = {
   apiKey: "AIzaSyC2mDcpBykc8j62cWHZqG2PkwjVpRF09nc",
   authDomain: "kancheritos-3df2e.firebaseapp.com",
@@ -45,7 +53,8 @@ btnLogin.onclick = async () => {
     await signInWithEmailAndPassword(auth, email.value, password.value);
     loginMsg.textContent = "";
   } catch (e) {
-    loginMsg.textContent = "❌ Email o contraseña incorrectos";
+    console.error(e);
+    loginMsg.textContent = e.code;
   }
 };
 
@@ -63,7 +72,7 @@ onAuthStateChanged(auth, user => {
   }
 });
 
-// ➕ GUARDAR PRODUCTO (NO MUESTRA NADA)
+// ➕ GUARDAR
 btnAgregar.onclick = async () => {
   await addDoc(collection(db, "productos"), {
     codigo: codigo.value,
@@ -76,15 +85,13 @@ btnAgregar.onclick = async () => {
   alert("Producto guardado ✅");
 };
 
-// 🔍 BUSCAR SOLO CUANDO LO PEDÍS
+// 🔍 BUSCAR
 buscar.oninput = async () => {
   const text = buscar.value.toLowerCase();
   resultado.innerHTML = "";
-
   if (!text) return;
 
   const snap = await getDocs(collection(db, "productos"));
-
   snap.forEach(doc => {
     const p = doc.data();
     if (
