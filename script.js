@@ -1,8 +1,8 @@
-// 🔥 IMPORTS FIREBASE
+// 🔥 FIREBASE
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot }
+import { getFirestore, collection, addDoc, getDocs }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // 🔹 CONFIG
@@ -38,15 +38,14 @@ const nombre = document.getElementById("nombre");
 const precio = document.getElementById("precio");
 const proveedor = document.getElementById("proveedor");
 const btnAgregar = document.getElementById("btnAgregar");
-const lista = document.getElementById("lista");
 
 // 🔐 LOGIN
 btnLogin.onclick = async () => {
   try {
     await signInWithEmailAndPassword(auth, email.value, password.value);
     loginMsg.textContent = "";
-  } catch {
-    loginMsg.textContent = "❌ Error de login";
+  } catch (e) {
+    loginMsg.textContent = "❌ Email o contraseña incorrectos";
   }
 };
 
@@ -58,14 +57,13 @@ onAuthStateChanged(auth, user => {
   if (user) {
     login.style.display = "none";
     appDiv.style.display = "flex";
-    mostrarStock();
   } else {
     login.style.display = "block";
     appDiv.style.display = "none";
   }
 });
 
-// ➕ GUARDAR
+// ➕ GUARDAR PRODUCTO (NO MUESTRA NADA)
 btnAgregar.onclick = async () => {
   await addDoc(collection(db, "productos"), {
     codigo: codigo.value,
@@ -75,52 +73,32 @@ btnAgregar.onclick = async () => {
   });
 
   codigo.value = nombre.value = precio.value = proveedor.value = "";
+  alert("Producto guardado ✅");
 };
 
-// 📦 STOCK
-function mostrarStock() {
-  onSnapshot(collection(db, "productos"), snap => {
-    lista.innerHTML = "";
-    snap.forEach(doc => {
-      const p = doc.data();
-      lista.innerHTML += `<p>${p.nombre} — ${p.precio}</p>`;
-    });
-  });
-}
-
-// 🔍 BUSCAR
-buscar.oninput = () => {
+// 🔍 BUSCAR SOLO CUANDO LO PEDÍS
+buscar.oninput = async () => {
   const text = buscar.value.toLowerCase();
   resultado.innerHTML = "";
 
   if (!text) return;
 
-  onSnapshot(collection(db, "productos"), snap => {
-    resultado.innerHTML = "";
-    snap.forEach(doc => {
-      const p = doc.data();
-      if (
-        p.nombre.toLowerCase().includes(text) ||
-        p.codigo.toLowerCase().includes(text)
-      ) {
-        resultado.innerHTML += `
-          <div>
-            <b>${p.nombre}</b><br>
-            ${p.precio}<br>
-            <button onclick="usar('${p.codigo}','${p.nombre}','${p.precio}','${p.proveedor}')">
-              Usar
-            </button>
-          </div>
-        `;
-      }
-    });
-  });
-};
+  const snap = await getDocs(collection(db, "productos"));
 
-// 📥 CARGAR FORMULARIO
-window.usar = (c,n,p,pr) => {
-  codigo.value = c;
-  nombre.value = n;
-  precio.value = p;
-  proveedor.value = pr;
+  snap.forEach(doc => {
+    const p = doc.data();
+    if (
+      p.nombre.toLowerCase().includes(text) ||
+      p.codigo.toLowerCase().includes(text)
+    ) {
+      resultado.innerHTML += `
+        <div>
+          <b>${p.nombre}</b><br>
+          Código: ${p.codigo}<br>
+          Precio: ${p.precio}<br>
+          Proveedor: ${p.proveedor}
+        </div>
+      `;
+    }
+  });
 };
