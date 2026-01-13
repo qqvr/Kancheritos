@@ -1,28 +1,12 @@
-// 🔹 Firebase imports (MODULAR)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { 
-    getAuth, 
-    signInWithEmailAndPassword, 
-    onAuthStateChanged, 
-    signOut 
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import { 
-    getFirestore, 
-    collection, 
-    doc, 
-    setDoc, 
-    onSnapshot 
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-
-// 🔹 TU CONFIG
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_AUTH_DOMAIN",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_STORAGE_BUCKET",
-    messagingSenderId: "TU_MESSAGING_SENDER_ID",
-    appId: "TU_APP_ID",
-    measurementId: "TU_MEASUREMENT_ID"
+  apiKey: "AIzaSyC2mDcpBykc8j62cWHZqG2PkwjVpRF09nc",
+  authDomain: "kancheritos-3df2e.firebaseapp.com",
+  projectId: "kancheritos-3df2e",
+  storageBucket: "kancheritos-3df2e.firebasestorage.app",
+  messagingSenderId: "407834805706",
+  appId: "1:407834805706:web:3217b7fd2693a6d32c7b33",
+  measurementId: "G-JVE250G0GF"
 };
 
 // 🔹 Inicializar Firebase
