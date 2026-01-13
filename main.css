@@ -1,37 +1,45 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f9;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
 }
 
 .card {
-    background: #fff;
-    padding: 20px;
-    margin: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 260px;
 }
 
 input {
-    display: block;
-    margin: 10px 0;
-    padding: 8px;
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px;
 }
 
 button {
-    padding: 10px;
-    background: #6c63ff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 10px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 button:hover {
-    background: #574fd6;
+  background: #574fd6;
+}
+
+#resultado div {
+  margin-top: 6px;
+  padding: 6px;
+  border-bottom: 1px solid #ddd;
 }

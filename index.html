@@ -1,40 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Kancheritos</title>
-    <link rel="stylesheet" href="main.css">
+  <meta charset="UTF-8">
+  <title>Kancheritos</title>
+  <link rel="stylesheet" href="main.css">
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="login" class="card">
-    <h2>🔐 Iniciar sesión</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Contraseña">
-    <button id="btnLogin">Entrar</button>
-    <p id="loginMsg"></p>
+  <h2>🔐 Iniciar sesión</h2>
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Contraseña">
+  <button id="btnLogin">Entrar</button>
+  <p id="loginMsg"></p>
 </div>
 
 <!-- APP -->
 <div id="app" class="container" style="display:none;">
-    <div class="card">
-        <h2>➕ Agregar producto</h2>
-        <input id="codigo" placeholder="Código">
-        <input id="nombre" placeholder="Nombre">
-        <input id="precio" placeholder="Precio">
-        <input id="proveedor" placeholder="Proveedor">
-        <button id="btnAgregar">Guardar</button>
-    </div>
 
-    <div class="card">
-        <h2>📦 Stock</h2>
-        <div id="lista"></div>
-        <button id="btnLogout">Cerrar sesión</button>
-    </div>
+  <!-- BUSCAR -->
+  <div class="card">
+    <h2>🔍 Buscar catálogo</h2>
+    <input id="buscar" placeholder="Buscar por código o nombre">
+    <div id="resultado"></div>
+  </div>
+
+  <!-- AGREGAR -->
+  <div class="card">
+    <h2>➕ Agregar / Editar</h2>
+    <input id="codigo" placeholder="Código">
+    <input id="nombre" placeholder="Nombre">
+    <input id="precio" placeholder="Precio">
+    <input id="proveedor" placeholder="Proveedor">
+    <button id="btnAgregar">Guardar</button>
+  </div>
+
+  <!-- STOCK -->
+  <div class="card">
+    <h2>📦 Stock</h2>
+    <div id="lista"></div>
+    <button id="btnLogout">Cerrar sesión</button>
+  </div>
+
 </div>
 
-<!-- Firebase + App -->
 <script type="module" src="script.js"></script>
 </body>
 </html>
