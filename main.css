@@ -1,40 +1,37 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
 
-.container {
-    width: 400px;
-    margin: 100px auto;
-    background: white;
+.card {
+    background: #fff;
     padding: 20px;
-    text-align: center;
+    margin: 10px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 input {
-    width: 80%;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 16px;
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #000;
-    color: white;
+    padding: 10px;
+    background: #6c63ff;
+    color: #fff;
     border: none;
-    cursor: pointer;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 button:hover {
-    background-color: #444;
-}
-
-.resultado {
-    margin-top: 20px;
-    font-size: 18px;
+    background: #574fd6;
 }
