@@ -1,124 +1,158 @@
+// 🔥 Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { 
-  getFirestore, 
-  collection, 
-  addDoc, 
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  where,
   getDocs,
   deleteDoc,
   doc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// 🔥 TU CONFIGURACIÓN DE FIREBASE
 const firebaseConfig = {
-  apiKey: "AIzaSyC2mDcpBykc8j62cWHZqG2PkwjVpRF09nc",
-  authDomain: "kancheritos-3df2e.firebaseapp.com",
-  projectId: "kancheritos-3df2e",
-  storageBucket: "kancheritos-3df2e.firebasestorage.app",
-  messagingSenderId: "407834805706",
-  appId: "1:407834805706:web:3217b7fd2693a6d32c7b33"
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_AUTH_DOMAIN",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_STORAGE_BUCKET",
+  messagingSenderId: "TU_SENDER_ID",
+  appId: "TU_APP_ID"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+// 🔥 Inicializar Firebase
+const appFirebase = initializeApp(firebaseConfig);
+const auth = getAuth(appFirebase);
+const db = getFirestore(appFirebase);
 
-// ELEMENTOS
-const login = document.getElementById("login");
+// 🧱 ELEMENTOS HTML
+const loginDiv = document.getElementById("login");
 const appDiv = document.getElementById("app");
+
 const btnLogin = document.getElementById("btnLogin");
 const btnLogout = document.getElementById("btnLogout");
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 const loginMsg = document.getElementById("loginMsg");
 
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-
-const buscar = document.getElementById("buscar");
-const resultado = document.getElementById("resultado");
-
-const codigo = document.getElementById("codigo");
-const nombre = document.getElementById("nombre");
-const precio = document.getElementById("precio");
-const proveedor = document.getElementById("proveedor");
-const btnAgregar = document.getElementById("btnAgregar");
-
-// LOGIN
-btnLogin.onclick = async () => {
-  try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-    loginMsg.textContent = "";
-  } catch (e) {
-    loginMsg.textContent = e.code;
-  }
-};
-
-// LOGOUT
-btnLogout.onclick = () => signOut(auth);
-
-// SESIÓN
-onAuthStateChanged(auth, user => {
+// 👀 ESCUCHAR ESTADO DE SESIÓN
+onAuthStateChanged(auth, (user) => {
   if (user) {
-    login.style.display = "none";
+    // ✅ Usuario logueado
+    loginDiv.style.display = "none";
     appDiv.style.display = "flex";
   } else {
-    login.style.display = "block";
+    // ❌ No logueado
+    loginDiv.style.display = "block";
     appDiv.style.display = "none";
   }
 });
 
-// GUARDAR PRODUCTO
-btnAgregar.onclick = async () => {
+// 🔐 LOGIN
+btnLogin.addEventListener("click", () => {
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) {
+    loginMsg.innerText = "Completá email y contraseña";
+    return;
+  }
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      loginMsg.innerText = "";
+    })
+    .catch(() => {
+      loginMsg.innerText = "Email o contraseña incorrectos";
+    });
+});
+
+// 🔓 LOGOUT
+btnLogout.addEventListener("click", () => {
+  signOut(auth);
+});
+
+// ===============================
+// 🛒 PRODUCTOS
+// ===============================
+
+const buscarInput = document.getElementById("buscar");
+const resultadoDiv = document.getElementById("resultado");
+
+const codigoInput = document.getElementById("codigo");
+const nombreInput = document.getElementById("nombre");
+const precioInput = document.getElementById("precio");
+const proveedorInput = document.getElementById("proveedor");
+
+const btnAgregar = document.getElementById("btnAgregar");
+
+// ➕ AGREGAR PRODUCTO
+btnAgregar.addEventListener("click", async () => {
+  const codigo = codigoInput.value.trim();
+  const nombre = nombreInput.value.trim();
+  const precio = precioInput.value.trim();
+  const proveedor = proveedorInput.value.trim();
+
+  if (!codigo || !nombre || !precio || !proveedor) {
+    alert("Completá todos los campos");
+    return;
+  }
+
   await addDoc(collection(db, "productos"), {
-    codigo: codigo.value,   // SOLO CÓDIGO
-    nombre: nombre.value,
-    precio: precio.value,
-    proveedor: proveedor.value
+    codigo,
+    nombre,
+    precio,
+    proveedor
   });
 
-  codigo.value = nombre.value = precio.value = proveedor.value = "";
-  alert("Producto guardado ✅");
-};
+  codigoInput.value = "";
+  nombreInput.value = "";
+  precioInput.value = "";
+  proveedorInput.value = "";
 
-// 🔍 BUSCAR SOLO POR CÓDIGO (NÚMERO)
-buscar.oninput = async () => {
-  const code = buscar.value.trim(); // SOLO LO QUE ESCRIBÍS
-  resultado.innerHTML = "";
+  alert("Producto guardado");
+});
 
-  if (code === "") return;
+// 🔍 BUSCAR SOLO POR CÓDIGO
+buscarInput.addEventListener("input", async () => {
+  const codigo = buscarInput.value.trim();
+  resultadoDiv.innerHTML = "";
 
-  const snap = await getDocs(collection(db, "productos"));
+  if (!codigo) return;
 
-  snap.forEach(d => {
-    const p = d.data();
+  const q = query(
+    collection(db, "productos"),
+    where("codigo", "==", codigo)
+  );
 
-    // 🔥 SOLO COMPARA CÓDIGO
-    if (p.codigo === code) {
-      resultado.innerHTML = `
-        <div>
-          <b>Producto encontrado</b><br><br>
-          Código: ${p.codigo}<br>
-          Nombre: ${p.nombre}<br>
-          Precio: ${p.precio}<br>
-          Proveedor: ${p.proveedor}<br><br>
+  const snapshot = await getDocs(q);
 
-          <button onclick="eliminarProducto('${d.id}')"
-            style="background:#e74c3c">
-            Eliminar
-          </button>
-        </div>
-      `;
-    }
+  snapshot.forEach(docSnap => {
+    const p = docSnap.data();
+
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <strong>${p.nombre}</strong><br>
+      Código: ${p.codigo}<br>
+      Precio: ${p.precio}<br>
+      Proveedor: ${p.proveedor}<br>
+      <button data-id="${docSnap.id}">Eliminar</button>
+    `;
+
+    div.querySelector("button").addEventListener("click", async () => {
+      await deleteDoc(doc(db, "productos", docSnap.id));
+      div.remove();
+    });
+
+    resultadoDiv.appendChild(div);
   });
-};
-
-// ELIMINAR
-window.eliminarProducto = async (id) => {
-  if (!confirm("¿Eliminar producto?")) return;
-  await deleteDoc(doc(db, "productos", id));
-  resultado.innerHTML = "";
-  alert("Producto eliminado ✅");
-};
+});
