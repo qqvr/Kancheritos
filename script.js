@@ -20,13 +20,15 @@ import {
 
 // 🔥 TU CONFIGURACIÓN DE FIREBASE
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH_DOMAIN",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_STORAGE_BUCKET",
-  messagingSenderId: "TU_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyC2mDcpBykc8j62cWHZqG2PkwjVpRF09nc",
+  authDomain: "kancheritos-3df2e.firebaseapp.com",
+  projectId: "kancheritos-3df2e",
+  storageBucket: "kancheritos-3df2e.firebasestorage.app",
+  messagingSenderId: "407834805706",
+  appId: "1:407834805706:web:3217b7fd2693a6d32c7b33",
+  measurementId: "G-JVE250G0GF"
 };
+
 
 // 🔥 Inicializar Firebase
 const appFirebase = initializeApp(firebaseConfig);
