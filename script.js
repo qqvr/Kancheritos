@@ -19,15 +19,20 @@ const app = document.getElementById("app");
 const productCard = document.getElementById("productCard");
 
 function login() {
-  const email = email.value;
-  const password = password.value;
+  const emailValue = document.getElementById("email").value;
+  const passwordValue = document.getElementById("password").value;
 
-  auth.signInWithEmailAndPassword(email, password)
+  auth.signInWithEmailAndPassword(emailValue, passwordValue)
     .then(() => {
+      document.querySelector(".card").style.display = "none";
       app.classList.remove("hidden");
     })
-    .catch(err => alert("Error de login"));
+    .catch(err => {
+      alert("Email o contraseña incorrectos");
+      console.error(err);
+    });
 }
+
 
 function agregarProducto() {
   const code = document.getElementById("code").value;
