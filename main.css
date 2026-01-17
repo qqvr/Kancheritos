@@ -1,89 +1,140 @@
+/* =========================
+   🎨 ESTILO GENERAL
+   ========================= */
+
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f9;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(180deg, #f2f7f6, #ffffff);
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 30px;
+  color: #333;
 }
+
+/* =========================
+   📦 CONTENEDOR
+   ========================= */
 
 .container {
   display: flex;
-  gap: 20px;
+  gap: 30px;
 }
 
+/* =========================
+   🧾 TARJETAS
+   ========================= */
+
 .card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 260px;
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 18px;
+  width: 320px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e6eeee;
 }
+
+/* =========================
+   📝 TEXTOS
+   ========================= */
+
+h2 {
+  margin-bottom: 14px;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #2f7f7a;
+}
+
+/* =========================
+   🔤 INPUTS
+   ========================= */
 
 input {
   width: 100%;
-  padding: 8px;
-  margin: 6px 0;
+  padding: 14px;
+  margin: 10px 0;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: 1px solid #cfdede;
+  outline: none;
 }
 
+input:focus {
+  border-color: #4bb3a7;
+  box-shadow: 0 0 0 2px rgba(75, 179, 167, 0.2);
+}
+
+/* =========================
+   🔘 BOTONES
+   ========================= */
+
 button {
-  padding: 10px;
+  padding: 14px;
   width: 100%;
-  margin-top: 8px;
-  background: #6c63ff;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #4bb3a7, #2f7f7a);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 button:hover {
-  background: #574fd6;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(47, 127, 122, 0.3);
 }
+
+#btnLogout {
+  background: #eeeeee;
+  color: #444;
+}
+
+#btnLogout:hover {
+  background: #dddddd;
+}
+
+/* =========================
+   🔍 RESULTADOS
+   ========================= */
 
 #resultado div {
-  border-bottom: 1px solid #ddd;
-  padding: 6px 0;
+  border-bottom: 1px solid #e6eeee;
+  padding: 10px 0;
+  font-size: 0.95rem;
 }
-
 
 /* =========================
    📱 MODO CELULAR
    ========================= */
-@media (max-width: 768px) {
 
+@media (max-width: 768px) {
   body {
-    padding: 10px;
+    padding: 15px;
   }
 
   .container {
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
   }
 
   .card {
     width: 100%;
-    padding: 18px;
+    padding: 22px;
   }
 
   h2 {
     font-size: 1.4rem;
-    text-align: center;
   }
 
   input {
     font-size: 1.1rem;
-    padding: 12px;
-    margin: 10px 0;
+    padding: 16px;
   }
 
   button {
     font-size: 1.1rem;
-    padding: 14px;
-    border-radius: 10px;
-  }
-
-  #resultado div {
-    font-size: 1rem;
-    padding: 10px 0;
+    padding: 16px;
   }
 }
