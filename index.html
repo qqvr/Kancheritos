@@ -5,83 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kancheritos</title>
 
-  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="main.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 </head>
+
 <body>
 
-  <!-- 🔐 LOGIN -->
-  <div id="login" class="card">
-    <h2>🔐 Iniciar sesión</h2>
+  <div class="container">
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Email"
-      autocomplete="email"
-    />
+    <h1>🔐 Iniciar sesión</h1>
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Contraseña"
-      autocomplete="current-password"
-    />
-
-    <button id="btnLogin">Entrar</button>
-
-    <p id="loginMsg"></p>
-  </div>
-
-  <!-- 🛒 APP -->
-  <div id="app" class="container" style="display: none;">
-
-    <!-- 🔍 BUSCAR -->
     <div class="card">
-      <h2>🔍 Buscar producto</h2>
-
-      <input
-        id="buscar"
-        placeholder="Código"
-        inputmode="numeric"
-      />
-
-      <div id="resultado"></div>
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Contraseña">
+      <button onclick="login()">Entrar</button>
     </div>
 
-    <!-- ➕ AGREGAR -->
-    <div class="card">
+    <div id="app" class="hidden">
+
+      <h1>🔎 Buscar producto</h1>
+
+      <div class="search-box">
+        <input type="number" id="searchCode" placeholder="Código del producto">
+        <button onclick="buscarProducto()">Buscar</button>
+      </div>
+
+      <div id="productCard" class="product-card hidden"></div>
+
+      <hr>
+
       <h2>➕ Agregar producto</h2>
 
-      <input
-        id="codigo"
-        placeholder="Código"
-        inputmode="numeric"
-      />
+      <div class="card">
+        <input type="number" id="code" placeholder="Código">
+        <input type="text" id="name" placeholder="Nombre">
+        <input type="number" id="price" placeholder="Precio">
+        <input type="text" id="provider" placeholder="Proveedor">
+        <button onclick="agregarProducto()">Agregar</button>
+      </div>
 
-      <input
-        id="nombre"
-        placeholder="Nombre"
-      />
-
-      <input
-        id="precio"
-        placeholder="Precio"
-        inputmode="numeric"
-      />
-
-      <input
-        id="proveedor"
-        placeholder="Proveedor"
-      />
-
-      <button id="btnAgregar">Guardar</button>
-      <button id="btnLogout">Cerrar sesión</button>
     </div>
 
   </div>
 
-  <!-- 🔥 SCRIPT -->
-  <script type="module" src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
 </html>

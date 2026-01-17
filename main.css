@@ -1,140 +1,111 @@
-/* =========================
-   🎨 ESTILO GENERAL
-   ========================= */
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(180deg, #f2f7f6, #ffffff);
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-  color: #333;
+  background: linear-gradient(135deg, #f2f2f2, #e6e6e6);
+  margin: 0;
+  padding: 20px;
 }
-
-/* =========================
-   📦 CONTENEDOR
-   ========================= */
 
 .container {
-  display: flex;
-  gap: 30px;
+  max-width: 420px;
+  margin: auto;
 }
 
-/* =========================
-   🧾 TARJETAS
-   ========================= */
+h1, h2 {
+  text-align: center;
+}
 
 .card {
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 18px;
-  width: 320px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e6eeee;
+  background: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
 }
-
-/* =========================
-   📝 TEXTOS
-   ========================= */
-
-h2 {
-  margin-bottom: 14px;
-  font-size: 1.5rem;
-  text-align: center;
-  color: #2f7f7a;
-}
-
-/* =========================
-   🔤 INPUTS
-   ========================= */
 
 input {
   width: 100%;
-  padding: 14px;
-  margin: 10px 0;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 1px solid #cfdede;
-  outline: none;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
 }
-
-input:focus {
-  border-color: #4bb3a7;
-  box-shadow: 0 0 0 2px rgba(75, 179, 167, 0.2);
-}
-
-/* =========================
-   🔘 BOTONES
-   ========================= */
 
 button {
-  padding: 14px;
   width: 100%;
-  margin-top: 10px;
-  background: linear-gradient(135deg, #4bb3a7, #2f7f7a);
-  color: white;
+  padding: 12px;
   border: none;
-  border-radius: 14px;
-  font-size: 1rem;
-  font-weight: bold;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3cb371, #2e8b57);
+  color: white;
+  font-size: 16px;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 15px rgba(47, 127, 122, 0.3);
+  opacity: 0.9;
 }
 
-#btnLogout {
-  background: #eeeeee;
-  color: #444;
+.search-box {
+  display: flex;
+  gap: 10px;
 }
 
-#btnLogout:hover {
-  background: #dddddd;
+.search-box button {
+  width: auto;
+  padding: 12px 20px;
 }
 
-/* =========================
-   🔍 RESULTADOS
-   ========================= */
-
-#resultado div {
-  border-bottom: 1px solid #e6eeee;
-  padding: 10px 0;
-  font-size: 0.95rem;
+.product-card {
+  background: #fff;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  margin: 20px 0;
+  animation: fadeIn 0.3s ease;
 }
 
-/* =========================
-   📱 MODO CELULAR
-   ========================= */
+.product-card p {
+  margin: 6px 0;
+  font-size: 16px;
+}
 
-@media (max-width: 768px) {
-  body {
-    padding: 15px;
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.actions button {
+  flex: 1;
+}
+
+.delete {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+/* PC */
+@media (min-width: 768px) {
   .container {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .card {
-    width: 100%;
-    padding: 22px;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-
-  input {
-    font-size: 1.1rem;
-    padding: 16px;
-  }
-
-  button {
-    font-size: 1.1rem;
-    padding: 16px;
+    max-width: 600px;
   }
 }

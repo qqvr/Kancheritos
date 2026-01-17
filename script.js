@@ -1,24 +1,4 @@
-// 🔥 Firebase imports
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  query,
-  where,
-  getDocs,
-  deleteDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-// 🔥 TU CONFIGURACIÓN DE FIREBASE
+// 🔥 CONFIGURÁ TU FIREBASE ACÁ
 const firebaseConfig = {
   apiKey: "AIzaSyC2mDcpBykc8j62cWHZqG2PkwjVpRF09nc",
   authDomain: "kancheritos-3df2e.firebaseapp.com",
@@ -30,131 +10,104 @@ const firebaseConfig = {
 };
 
 
-// 🔥 Inicializar Firebase
-const appFirebase = initializeApp(firebaseConfig);
-const auth = getAuth(appFirebase);
-const db = getFirestore(appFirebase);
+firebase.initializeApp(firebaseConfig);
 
-// 🧱 ELEMENTOS HTML
-const loginDiv = document.getElementById("login");
-const appDiv = document.getElementById("app");
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-const btnLogin = document.getElementById("btnLogin");
-const btnLogout = document.getElementById("btnLogout");
+const app = document.getElementById("app");
+const productCard = document.getElementById("productCard");
 
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const loginMsg = document.getElementById("loginMsg");
+function login() {
+  const email = email.value;
+  const password = password.value;
 
-// 👀 ESCUCHAR ESTADO DE SESIÓN
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // ✅ Usuario logueado
-    loginDiv.style.display = "none";
-    appDiv.style.display = "flex";
-  } else {
-    // ❌ No logueado
-    loginDiv.style.display = "block";
-    appDiv.style.display = "none";
-  }
-});
-
-// 🔐 LOGIN
-btnLogin.addEventListener("click", () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-
-  if (!email || !password) {
-    loginMsg.innerText = "Completá email y contraseña";
-    return;
-  }
-
-  signInWithEmailAndPassword(auth, email, password)
+  auth.signInWithEmailAndPassword(email, password)
     .then(() => {
-      loginMsg.innerText = "";
+      app.classList.remove("hidden");
     })
-    .catch(() => {
-      loginMsg.innerText = "Email o contraseña incorrectos";
-    });
-});
+    .catch(err => alert("Error de login"));
+}
 
-// 🔓 LOGOUT
-btnLogout.addEventListener("click", () => {
-  signOut(auth);
-});
+function agregarProducto() {
+  const code = document.getElementById("code").value;
+  const name = document.getElementById("name").value;
+  const price = document.getElementById("price").value;
+  const provider = document.getElementById("provider").value;
 
-// ===============================
-// 🛒 PRODUCTOS
-// ===============================
-
-const buscarInput = document.getElementById("buscar");
-const resultadoDiv = document.getElementById("resultado");
-
-const codigoInput = document.getElementById("codigo");
-const nombreInput = document.getElementById("nombre");
-const precioInput = document.getElementById("precio");
-const proveedorInput = document.getElementById("proveedor");
-
-const btnAgregar = document.getElementById("btnAgregar");
-
-// ➕ AGREGAR PRODUCTO
-btnAgregar.addEventListener("click", async () => {
-  const codigo = codigoInput.value.trim();
-  const nombre = nombreInput.value.trim();
-  const precio = precioInput.value.trim();
-  const proveedor = proveedorInput.value.trim();
-
-  if (!codigo || !nombre || !precio || !proveedor) {
-    alert("Completá todos los campos");
-    return;
-  }
-
-  await addDoc(collection(db, "productos"), {
-    codigo,
-    nombre,
-    precio,
-    proveedor
+  db.collection("products").doc(code).set({
+    name,
+    price,
+    provider
   });
 
-  codigoInput.value = "";
-  nombreInput.value = "";
-  precioInput.value = "";
-  proveedorInput.value = "";
+  alert("Producto agregado");
+}
 
-  alert("Producto guardado");
-});
+function buscarProducto() {
+  const code = document.getElementById("searchCode").value;
 
-// 🔍 BUSCAR SOLO POR CÓDIGO
-buscarInput.addEventListener("input", async () => {
-  const codigo = buscarInput.value.trim();
-  resultadoDiv.innerHTML = "";
+  db.collection("products").doc(code).get().then(doc => {
+    if (!doc.exists) {
+      alert("No existe");
+      return;
+    }
 
-  if (!codigo) return;
+    const p = doc.data();
 
-  const q = query(
-    collection(db, "productos"),
-    where("codigo", "==", codigo)
-  );
+    productCard.innerHTML = `
+      <p><strong>Código:</strong> ${code}</p>
+      <p><strong>${p.name}</strong></p>
 
-  const snapshot = await getDocs(q);
+      <div id="viewMode">
+        <p>💲 Precio: $${p.price}</p>
+        <p>🏷 Proveedor: ${p.provider}</p>
 
-  snapshot.forEach(docSnap => {
-    const p = docSnap.data();
-
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <strong>${p.nombre}</strong><br>
-      Código: ${p.codigo}<br>
-      Precio: ${p.precio}<br>
-      Proveedor: ${p.proveedor}<br>
-      <button data-id="${docSnap.id}">Eliminar</button>
+        <div class="actions">
+          <button onclick="editarProducto('${code}')">✏️ Modificar</button>
+          <button class="delete" onclick="eliminarProducto('${code}')">🗑 Eliminar</button>
+        </div>
+      </div>
     `;
 
-    div.querySelector("button").addEventListener("click", async () => {
-      await deleteDoc(doc(db, "productos", docSnap.id));
-      div.remove();
-    });
-
-    resultadoDiv.appendChild(div);
+    productCard.classList.remove("hidden");
   });
-});
+}
+
+function editarProducto(code) {
+  db.collection("products").doc(code).get().then(doc => {
+    const p = doc.data();
+
+    productCard.innerHTML = `
+      <p><strong>Código:</strong> ${code}</p>
+      <p><strong>${p.name}</strong></p>
+
+      <input type="number" id="editPrice" value="${p.price}">
+      <input type="text" id="editProvider" value="${p.provider}">
+
+      <div class="actions">
+        <button onclick="guardarCambios('${code}')">💾 Guardar</button>
+        <button class="delete" onclick="buscarProducto()">❌ Cancelar</button>
+      </div>
+    `;
+  });
+}
+
+function guardarCambios(code) {
+  const price = document.getElementById("editPrice").value;
+  const provider = document.getElementById("editProvider").value;
+
+  db.collection("products").doc(code).update({
+    price,
+    provider
+  });
+
+  buscarProducto();
+}
+
+function eliminarProducto(code) {
+  if (!confirm("¿Eliminar producto?")) return;
+
+  db.collection("products").doc(code).delete();
+  productCard.classList.add("hidden");
+}
