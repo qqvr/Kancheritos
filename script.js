@@ -1,4 +1,4 @@
-// 🔥 CONFIGURÁ TU FIREBASE ACÁ
+// Firebase config (dejá el tuyo real)
 const firebaseConfig = {
   apiKey: "AIzaSyC2mDcpBykc8j62cWHZqG2PkwjVpRF09nc",
   authDomain: "kancheritos-3df2e.firebaseapp.com",
@@ -9,13 +9,13 @@ const firebaseConfig = {
   measurementId: "G-JVE250G0GF"
 };
 
-
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 const app = document.getElementById("app");
+const loginBox = document.getElementById("loginBox");
 const productCard = document.getElementById("productCard");
 
 function login() {
@@ -24,15 +24,13 @@ function login() {
 
   auth.signInWithEmailAndPassword(emailValue, passwordValue)
     .then(() => {
-      document.querySelector(".card").style.display = "none";
+      loginBox.style.display = "none";
       app.classList.remove("hidden");
     })
-    .catch(err => {
+    .catch(() => {
       alert("Email o contraseña incorrectos");
-      console.error(err);
     });
 }
-
 
 function agregarProducto() {
   const code = document.getElementById("code").value;
@@ -62,16 +60,13 @@ function buscarProducto() {
 
     productCard.innerHTML = `
       <p><strong>Código:</strong> ${code}</p>
-      <p><strong>${p.name}</strong></p>
+      <p><strong>Nombre:</strong> ${p.name}</p>
+      <p><strong>Precio:</strong> $${p.price}</p>
+      <p><strong>Proveedor:</strong> ${p.provider}</p>
 
-      <div id="viewMode">
-        <p>💲 Precio: $${p.price}</p>
-        <p>🏷 Proveedor: ${p.provider}</p>
-
-        <div class="actions">
-          <button onclick="editarProducto('${code}')">✏️ Modificar</button>
-          <button class="delete" onclick="eliminarProducto('${code}')">🗑 Eliminar</button>
-        </div>
+      <div class="actions">
+        <button onclick="editarProducto('${code}')">Modificar</button>
+        <button class="delete" onclick="eliminarProducto('${code}')">Eliminar</button>
       </div>
     `;
 
@@ -85,14 +80,17 @@ function editarProducto(code) {
 
     productCard.innerHTML = `
       <p><strong>Código:</strong> ${code}</p>
-      <p><strong>${p.name}</strong></p>
+      <p><strong>Nombre:</strong> ${p.name}</p>
 
+      <label>Precio →</label>
       <input type="number" id="editPrice" value="${p.price}">
+
+      <label>Proveedor →</label>
       <input type="text" id="editProvider" value="${p.provider}">
 
       <div class="actions">
-        <button onclick="guardarCambios('${code}')">💾 Guardar</button>
-        <button class="delete" onclick="buscarProducto()">❌ Cancelar</button>
+        <button onclick="guardarCambios('${code}')">Guardar</button>
+        <button class="delete" onclick="buscarProducto()">Cancelar</button>
       </div>
     `;
   });

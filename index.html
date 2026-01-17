@@ -17,17 +17,21 @@
 
   <div class="container">
 
-    <h1>🔐 Iniciar sesión</h1>
+    <!-- LOGIN -->
+    <div id="loginBox">
+      <h1>Iniciar sesión</h1>
 
-    <div class="card">
-      <input type="email" id="email" placeholder="Email">
-      <input type="password" id="password" placeholder="Contraseña">
-      <button onclick="login()">Entrar</button>
+      <div class="card">
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="login()">Entrar</button>
+      </div>
     </div>
 
+    <!-- APP -->
     <div id="app" class="hidden">
 
-      <h1>🔎 Buscar producto</h1>
+      <h1>Buscar producto</h1>
 
       <div class="search-box">
         <input type="number" id="searchCode" placeholder="Código del producto">
@@ -38,7 +42,7 @@
 
       <hr>
 
-      <h2>➕ Agregar producto</h2>
+      <h2>Agregar producto</h2>
 
       <div class="card">
         <input type="number" id="code" placeholder="Código">

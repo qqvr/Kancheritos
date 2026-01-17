@@ -109,3 +109,10 @@ button:hover {
     max-width: 600px;
   }
 }
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
