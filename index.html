@@ -1,44 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kancheritos</title>
-  <link rel="stylesheet" href="main.css">
+
+  <link rel="stylesheet" href="main.css" />
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="login" class="card">
-  <h2>🔐 Iniciar sesión</h2>
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Contraseña">
-  <button id="btnLogin">Entrar</button>
-  <p id="loginMsg"></p>
-</div>
+  <!-- 🔐 LOGIN -->
+  <div id="login" class="card">
+    <h2>🔐 Iniciar sesión</h2>
 
-<!-- APP -->
-<div id="app" class="container" style="display:none;">
+    <input
+      type="email"
+      id="email"
+      placeholder="Email"
+      autocomplete="email"
+    />
 
-  <!-- BUSCAR -->
-  <div class="card">
-    <h2>🔍 Buscar producto</h2>
-    <input id="buscar" placeholder="Código o nombre">
-    <div id="resultado"></div>
+    <input
+      type="password"
+      id="password"
+      placeholder="Contraseña"
+      autocomplete="current-password"
+    />
+
+    <button id="btnLogin">Entrar</button>
+
+    <p id="loginMsg"></p>
   </div>
 
-  <!-- AGREGAR -->
-  <div class="card">
-    <h2>➕ Agregar producto</h2>
-    <input id="codigo" placeholder="Código">
-    <input id="nombre" placeholder="Nombre">
-    <input id="precio" placeholder="Precio">
-    <input id="proveedor" placeholder="Proveedor">
-    <button id="btnAgregar">Guardar</button>
-    <button id="btnLogout">Cerrar sesión</button>
+  <!-- 🛒 APP -->
+  <div id="app" class="container" style="display: none;">
+
+    <!-- 🔍 BUSCAR -->
+    <div class="card">
+      <h2>🔍 Buscar producto</h2>
+
+      <input
+        id="buscar"
+        placeholder="Código"
+        inputmode="numeric"
+      />
+
+      <div id="resultado"></div>
+    </div>
+
+    <!-- ➕ AGREGAR -->
+    <div class="card">
+      <h2>➕ Agregar producto</h2>
+
+      <input
+        id="codigo"
+        placeholder="Código"
+        inputmode="numeric"
+      />
+
+      <input
+        id="nombre"
+        placeholder="Nombre"
+      />
+
+      <input
+        id="precio"
+        placeholder="Precio"
+        inputmode="numeric"
+      />
+
+      <input
+        id="proveedor"
+        placeholder="Proveedor"
+      />
+
+      <button id="btnAgregar">Guardar</button>
+      <button id="btnLogout">Cerrar sesión</button>
+    </div>
+
   </div>
 
-</div>
+  <!-- 🔥 SCRIPT -->
+  <script type="module" src="script.js"></script>
 
-<script type="module" src="script.js"></script>
 </body>
 </html>
